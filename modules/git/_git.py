@@ -2,8 +2,9 @@ from urllib.parse import urlparse
 import subprocess
 import requests
 
-# check is git exposed to the internet 
 
+
+# check is git exposed to the internet 
 def git(self):
     
     url = self.targets[0]
@@ -24,20 +25,21 @@ def git(self):
 
     print("[!!!] hit git: " + git_url + " [!!!]")
     if (self.download == True):
-        self.download_git()     
+        self.downloadGit(url)     
         return True
 
 
 
-    
-    # resources downloading  
-    def downloadGit(self):
-        root = urlparse(self.url)[1]
-        try:
-            print("-" * 10 + "running git_dumper.py" + "-" * 10)
-            subprocess.run(["python", "./tools/git_dumper/git_dumper.py" , self.url, "./git/" + root])
-            print("-" * 41)
-        except:
-            print("[!] Error while opening ./tools/git-dumper/git-dumper.py [!]")
+
+
+
+# download git repository  
+def downloadGit(self, url):
+    try:
+        print("-" * 10 + "running git_dumper.py" + "-" * 10)
+        subprocess.run(["python", "./tools/git_dumper/git_dumper.py" , url, "./git/" ])
+        print("-" * 41)
+    except:
+        print("[!] Error while opening ./tools/git-dumper/git-dumper.py [!]")
 
 
