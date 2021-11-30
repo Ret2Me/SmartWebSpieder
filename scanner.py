@@ -3,6 +3,7 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 from multiprocessing.managers import Server
 import threading
+import multiprocessing
 import sys,os
 # sys.path.append(os.path.realpath('./modules/dnsDump/'))
 # sys.path.append(os.path.realpath('./modules/dnsDump/subbrute'))
@@ -11,7 +12,7 @@ import sys,os
 
 class website_crawler:
     def __init__(self, targets, download, past_websites):
-
+        self.session = requests.Session()
         self.targets = targets
         self.download = download
         self.past_websites = past_websites
@@ -20,7 +21,7 @@ class website_crawler:
 
     # import modules
     from modules.git._git import git, downloadGit
-    from modules.svn._svn import svn
+    from modules.svn._svn import svn, downloadSvn
     from modules.dnsDump._dnsDump import dnsDump
     from modules.urlDump._urlDump import urlDump
     
@@ -67,32 +68,29 @@ class website_crawler:
 
 def main():
     black_list = ['facebook', 'wiktionary', 'youtube', 'instagram', 'wikipedia', 'wikimedia', 'pinterest', 'linkedin', 'messenger', 'google']
-    url_queue = ['https://www.onet.pl/', 'http://konfederacjalewiatan.pl/']
+    url_queue = ['https://optimizely.techtarget.com/', 'http://gazeta.pl/']
     number_of_threads = 3  
     
 
     # create threads with new branches
-    threads = []
+    processes = []
     crawlers_obj  = []
 
     for i in range(0, number_of_threads):
         if (len(url_queue) <= i):
             break
+        
 
         crawlers_obj.append(website_crawler([url_queue[i]], True, black_list))
-        thread = threading.Thread(target=crawlers_obj[i].run)
-        thread.start()
-        threads.append(thread)
+        process = multiprocessing.Process(target=crawlers_obj[i].run)
+
+        process.start()
+        processes.append(process)
 
 
-    for thread in threads:
-        thread.join()  
+    for process in processes:
+        process.join()  
 
-
-
-
-    crawlers = website_crawler(url_queue, 1, False, black_list)
-    crawlers.run()
 
 
 if __name__=="__main__":

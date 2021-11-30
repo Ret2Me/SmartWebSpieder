@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 import subprocess
 import requests
+from requests.sessions import session
 
 
 
@@ -15,11 +16,10 @@ def git(self):
 
     print("trying: ", git_url)
     try:
-        exist = requests.get(url = git_url, allow_redirects=False, verify=False, timeout=5)
+        exist = self.session.get(url = git_url, allow_redirects=False, verify=False, timeout=5)
         if (exist.status_code != 200 or "[core]" not in str(exist.content)):
             return False
-    except Exception as e:
-        print(e)
+    except:
         return False
 
 
@@ -37,7 +37,7 @@ def git(self):
 def downloadGit(self, url):
     try:
         print("-" * 10 + "running git_dumper.py" + "-" * 10)
-        subprocess.run(["python", "./tools/git_dumper/git_dumper.py" , url, "./git/" ])
+        subprocess.run(["python", "./tools/git_dumper/git_dumper.py" , url, ("./git/" + str(urlparse(url).hostname)) ])
         print("-" * 41)
     except:
         print("[!] Error while opening ./tools/git-dumper/git-dumper.py [!]")
