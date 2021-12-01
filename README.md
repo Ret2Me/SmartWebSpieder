@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # SmartWebSpieder 
 
 ### ToDo
@@ -8,6 +6,3 @@
 - [X] add .env support
 - [X] add .git support
 - [X] add .svn support
-=======
-# SmartWebSpider
->>>>>>> main
