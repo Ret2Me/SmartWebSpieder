@@ -1,8 +1,7 @@
 import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from multiprocessing.managers import Server
-import threading
 import multiprocessing
 import sys,os
 # sys.path.append(os.path.realpath('./modules/dnsDump/'))
@@ -20,11 +19,11 @@ class website_crawler:
 
 
     # import modules
+    from modules.env._env import env
     from modules.git._git import git, downloadGit
     from modules.svn._svn import svn, downloadSvn
     from modules.dnsDump._dnsDump import dnsDump
     from modules.urlDump._urlDump import urlDump
-    
 
 
 
@@ -39,6 +38,7 @@ class website_crawler:
 
 
             #search for sensitive data exposure
+            self.env()
             self.git()
             self.svn()
 
@@ -67,8 +67,8 @@ class website_crawler:
 
 
 def main():
-    black_list = ['facebook', 'wiktionary', 'youtube', 'instagram', 'wikipedia', 'wikimedia', 'pinterest', 'linkedin', 'messenger', 'google']
-    url_queue = ['https://optimizely.techtarget.com/', 'http://gazeta.pl/']
+    black_list = ['facebook', 'wiktionary', 'youtube', 'instagram', 'wikipedia', 'wikimedia', 'pinterest', 'linkedin', 'messenger', 'google', 'twitter']
+    url_queue = []
     number_of_threads = 3  
     
 
@@ -102,7 +102,8 @@ if __name__=="__main__":
 main 
 |
 |---+ website-scan
-^   |---> git 
+^   |---> env
+|   |---> git 
 |   |---> svn
 |   |---> more files
 |   |---> your actions   
