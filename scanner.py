@@ -10,11 +10,14 @@ import sys,os
 
 
 class website_crawler:
-    def __init__(self, targets, download, past_websites):
+    def __init__(self, targets, download, past_websites, drop_counter = 10000):
         self.session = requests.Session()
         self.targets = targets
         self.download = download
         self.past_websites = past_websites
+        self.drop_counter_startval = drop_counter
+        self.drop_counter = drop_counter
+        self.renew_size = 100
 
 
 
@@ -29,8 +32,14 @@ class website_crawler:
 
     def run(self):
 
-        while len(self.targets) > 0:
 
+        if (self.drop_counter  == 0):
+            self.drop_counter = self.drop_counter_startval
+            self.history = []
+            del self.targets[self.renew_size:]
+
+
+        while len(self.targets) > 0:
 
             # add new urls to list  
             self.dnsDump()
@@ -40,8 +49,7 @@ class website_crawler:
             #search for sensitive data exposure
             
             nmap = False
-            if (self.env() == True):
-                nmap = True
+            self.env()
 
             if (self.git() == True):
                 nmap = True
@@ -56,6 +64,7 @@ class website_crawler:
 
             # ------------END------------
             self.past_websites.append(self.targets.pop(0))
+            self.drop_counter -= 1
 
             
 
