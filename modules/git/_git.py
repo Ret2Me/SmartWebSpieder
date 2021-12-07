@@ -3,7 +3,7 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from urllib.parse import urlparse
 import subprocess
-
+import os
 
 # check is git exposed to the internet 
 def git(self):
@@ -14,6 +14,8 @@ def git(self):
         url += '/'
     git_url = url + ".git/config"
 
+
+
     print("trying: ", git_url)
     try:
         exist = self.session.get(url = git_url, allow_redirects=False, verify=True, timeout=5)
@@ -23,7 +25,6 @@ def git(self):
         return False
 
 
-    print("[!!!] hit git: " + git_url + " [!!!]")
     if (self.download == True):
         self.downloadGit(url)     
         return True
@@ -35,11 +36,17 @@ def git(self):
 
 # download git repository  
 def downloadGit(self, url):
+
+
     try:
-        print("-" * 10 + "running git_dumper.py" + "-" * 10)
-        subprocess.run(["python", "./tools/git_dumper/git_dumper.py" , url, ("./output/git_" + str(urlparse(url).hostname))])
-        print("-" * 41)
-    except:
-        print("[!] Error while opening ./tools/git-dumper/git-dumper.py [!]")
+        dir_path = "./output/" +  str(urlparse(url).hostname)
 
+        if (os.path.isdir(dir_path) == False):
+            os.mkdir(dir_path)
+            dir_path += "/git/" 
+            os.mkdir(dir_path)
 
+        subprocess.run(["python", "./tools/git_dumper/git_dumper.py" , url, dir_path])
+    except Exception as e:
+        print("[!] Error while opening ./tools/git_dumper/git_dumper.py [!]")
+        print(e)

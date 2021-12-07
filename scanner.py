@@ -20,11 +20,11 @@ class website_crawler:
 
     # import modules
     from modules.env._env import env
+    from modules.nmapVuln._nmap import nmap_scan
     from modules.git._git import git, downloadGit
     from modules.svn._svn import svn, downloadSvn
     from modules.dnsDump._dnsDump import dnsDump
     from modules.urlDump._urlDump import urlDump
-
 
 
     def run(self):
@@ -38,10 +38,19 @@ class website_crawler:
 
 
             #search for sensitive data exposure
-            self.env()
-            self.git()
-            self.svn()
+            
+            nmap = False
+            if (self.env() == True):
+                nmap = True
 
+            if (self.git() == True):
+                nmap = True
+
+            if (self.svn() == True):
+                nmap = True
+
+            if (nmap == True):
+                self.nmap_scan()                
 
 
 
@@ -67,19 +76,14 @@ class website_crawler:
 
 
 def main():
-    black_list = ['facebook', 'wiktionary', 'youtube', 'instagram', 'wikipedia', 'wikimedia', 'pinterest', 'linkedin', 'messenger', 'google', 'twitter']
-    url_queue = []
-    number_of_threads = 3  
-    
+    black_list = ['facebook', 'wiktionary', 'youtube', 'amazon', 'instagram', 'wikipedia', 'wikimedia',  'pinterest', 'linkedin', 'messenger', 'google', 'twitter', 'apache', "html5", "githubassets"]
+    url_queue =  []    
 
     # create threads with new branches
     processes = []
     crawlers_obj  = []
 
-    for i in range(0, number_of_threads):
-        if (len(url_queue) <= i):
-            break
-        
+    for i in range(0, len(url_queue)):
 
         crawlers_obj.append(website_crawler([url_queue[i]], True, black_list))
         process = multiprocessing.Process(target=crawlers_obj[i].run)

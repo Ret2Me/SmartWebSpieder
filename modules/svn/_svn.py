@@ -14,6 +14,7 @@ def svn(self):
         url += '/'
     svn_url = url + ".svn/wc.db"
 
+
     print("trying: ", svn_url)
     try:
         exist = self.session.get(url = svn_url, allow_redirects=False, verify=False, timeout=5)
@@ -23,7 +24,6 @@ def svn(self):
         return False
 
 
-    print("[!!!] hit svn: " + svn_url + " [!!!]")
     if (self.download == True):
         self.downloadSvn(url)     
         return True
@@ -36,9 +36,7 @@ def svn(self):
 # download svn repository  
 def downloadSvn(self, url):
     try:
-        print("-" * 10 + "running svn_extractor.py" + "-" * 10)
         subprocess.run(["python", "./tools/svn-extractor/svn_extractor.py" , "--url", str(url)])
-        print("-" * 41)
     except:
         print("[!] Error while opening ./tools/svn-extractor/svn-extractor.py [!]")
 

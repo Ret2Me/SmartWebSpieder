@@ -2,7 +2,7 @@ import requests
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from urllib.parse import urlparse
-
+import os
 
 
 
@@ -13,6 +13,10 @@ def env(self):
     if (url[-1] != '/'):
         url += '/'
     git_url = url + ".env"
+
+    
+    if (os.path.isdir('./output/env/') == False):
+        os.mkdir('./output/env/')
 
 
 
@@ -32,7 +36,7 @@ def env(self):
         return False
 
     if (self.download == True):
-        file = open("./output/env_" +  str(urlparse(url).hostname), 'w')
+        file = open("./output/env/" +  str(urlparse(url).hostname), 'w')
         file.write(str(response.content))
         file.close()
         return True
