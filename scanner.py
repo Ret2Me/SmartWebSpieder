@@ -14,32 +14,39 @@ class website_crawler:
         self.session = requests.Session()
         self.targets = targets
         self.download = download
+        self.black_list = past_websites
         self.past_websites = past_websites
         self.drop_counter_startval = drop_counter
         self.drop_counter = drop_counter
         self.renew_size = 100
 
 
-
-    # import modules
+ 
+    # appending new targets 
+    from modules.dnsDump._dnsDump import dnsDump
+    from modules.urlDump._urlDump import urlDump
+    
+    # scan for vulnerabilities 
     from modules.env._env import env
     from modules.nmapVuln._nmap import nmap_scan
     from modules.git._git import git, downloadGit
     from modules.svn._svn import svn, downloadSvn
-    from modules.dnsDump._dnsDump import dnsDump
-    from modules.urlDump._urlDump import urlDump
+
+
+
 
 
     def run(self):
 
-
-        if (self.drop_counter  == 0):
+        # dump arrays for better optymalization
+        if (self.drop_counter == 0):
             self.drop_counter = self.drop_counter_startval
-            self.history = []
+            self.history = self.black_list
             del self.targets[self.renew_size:]
 
 
         while len(self.targets) > 0:
+
 
             # add new urls to list  
             self.dnsDump()
@@ -47,7 +54,6 @@ class website_crawler:
 
 
             #search for sensitive data exposure
-            
             nmap = False
             self.env()
 
@@ -85,8 +91,19 @@ class website_crawler:
 
 
 def main():
-    black_list = ['facebook', 'wiktionary', 'youtube', 'amazon', 'instagram', 'wikipedia', 'wikimedia',  'pinterest', 'linkedin', 'messenger', 'google', 'twitter', 'apache', "html5", "githubassets"]
-    url_queue =  []    
+
+    # standard config
+    black_list = ['facebook', 'wiktionary', 'youtube', 'amazon', 'instagram', 'wikipedia', 'wikimedia',  'pinterest', 'linkedin', 'messenger', 'google', 'twitter', 'apache', "html5", 'githubassets', 'w3c', 'json-ld']
+    url_queue =  []
+
+
+
+
+
+
+
+
+
 
     # create threads with new branches
     processes = []
