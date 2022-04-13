@@ -1,0 +1,28 @@
+.record {
+    background-color: whitesmoke;
+    width: 90%;
+    padding: 2vh;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 0 auto;
+    flex-direction: column;
+}
+
+a {
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-decoration: none;
+    color: black;
+}
+
+p {
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+div {
+    display: flex;
+}

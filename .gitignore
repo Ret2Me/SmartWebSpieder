@@ -1,6 +1,7 @@
 __pycache__/
-.vscode
+.vscode/
+env/
 git/
 .git/
 output/
-tools/git_dumper/
+.idea/

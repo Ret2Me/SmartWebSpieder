@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        {% for website in targets %}
+            <div class="record">
+                <div><p>vulnerability type: </p><span>{{website['vuln']}}</span></div>
+                <div><p>url:</p><a href="{{website['url']}}"> {{website['url']}}</a></div>
+            </div><br>
+        {% endfor %}
+    </body>
+</html>
