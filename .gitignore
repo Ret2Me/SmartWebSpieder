@@ -1,7 +1,4 @@
 __pycache__/
 .vscode/
-git/
-.git/
-output/
 .idea/
 /env/
