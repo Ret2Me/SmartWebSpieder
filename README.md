@@ -1,7 +1,9 @@
 # SmartWebSpider 
 ![](other/SmartWebSpider.png)
-SmartWebSpider is simple, speed and modular vulnerability scanner dedicated to incessantly finding and testing new websites. 
-
+SmartWebSpider is simple, speed and modular vulnerability scanner dedicated to incessantly finding and testing new websites.  
+  
+<img src="https://img.shields.io/badge/Trust%20Factor-9.7%2F10-green">
+https://img.shields.io/badge/Trust%20Factor-9.7%2F10-green
 ## Installation
 ToDo:
 Write documentation about it.
